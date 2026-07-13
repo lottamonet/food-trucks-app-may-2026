@@ -30,6 +30,10 @@ async function getAllFoodTrucks() {
 }
 
 // 2. getFoodTruckById(id)
+async function getFoodTruckById(id) {
+  const result = await db.query("SELECT * FROM food_trucks WHERE id = $1" , [id]);
+  return result.rows[0];
+}
 
 // 3. getVeganFoodTrucks()
 
@@ -88,19 +92,28 @@ app.get("/get-all-food-trucks", async (req, res) => {
   res.json(trucks);
 });
 
-// 2. GET /get-food-truck-by-id/:id - Ysabel
+// 2. GET /get-food-truck-by-id/:id - 
+app.get("/get-food-truck-by-id/:id", async (req,res) => {
+  const { id } = req.params;
+  const truck = await getFoodTruckById(id);
+  if (truck) {
+    res.json(truck);
+  } else {
+    res.send(`Food truck with ID ${id} not found.`);
+  }
+})
 
-// 3. GET /get-vegan-food-trucks - Shirley
+// 3. GET /get-vegan-food-trucks - 
 
-// 4. GET /get-food-trucks-by-price/:price - Seth
+// 4. GET /get-food-trucks-by-price/:price - 
 
-// 5. GET /get-top-rated-food-trucks - Morgan
+// 5. GET /get-top-rated-food-trucks - 
 
-// 6. GET /get-food-trucks-sorted-by-rating - Zesty Pepper
+// 6. GET /get-food-trucks-sorted-by-rating -
 
-// 7. GET /get-food-trucks-sorted-by-price - Jana
+// 7. GET /get-food-trucks-sorted-by-price - 
 
-// 8. GET /get-food-trucks-count - Hailey
+// 8. GET /get-food-trucks-count - 
 
 // 9. POST /add-one-food-truck
 app.post("/add-one-food-truck", async (req, res) => {
@@ -127,7 +140,7 @@ app.post("/add-one-food-truck", async (req, res) => {
   res.send(`Success! ${truck.name} was added!`);
 });
 
-// 10. POST /delete-one-food-truck/:id - Carlotta
+// 10. POST /delete-one-food-truck/:id - 
 
 // 11. POST /update-food-truck-location - Arianne
 
