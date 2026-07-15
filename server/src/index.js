@@ -30,10 +30,13 @@ async function getAllFoodTrucks() {
 }
 
 // 2. getFoodTruckById(id)
+// Function to retrieve a food truck by its ID from the database
 async function getFoodTruckById(id) {
+  // Executes a SQL query to select the food truck with the specified ID
   const result = await db.query("SELECT * FROM food_trucks WHERE id = $1", [
     id,
   ]);
+  // Returns the first row of the result, which is the food truck object with the given ID
   return result.rows[0];
 }
 
@@ -174,9 +177,13 @@ app.get("/get-all-food-trucks", async (req, res) => {
 });
 
 // 2. GET /get-food-truck-by-id/:id - Carlotta
+// GET endpoint to retrieve a food truck by its ID
 app.get("/get-food-truck-by-id/:id", async (req, res) => {
+  // Extracts the 'id' parameter from the request URL dynamically
   const { id } = req.params;
+  // Calls the helper function to get the food truck with the specified ID and waits for the result
   const truck = await getFoodTruckById(id);
+  //checks if a food truck was found and if so, sends it as a JSON response; otherwise, sends a not found message
   if (truck) {
     res.json(truck);
   } else {
